@@ -2,12 +2,13 @@
 import shutil
 import os
 import datetime
+import subprocess
 from send2trash import send2trash
 
 def main():
 	directory= os.fsencode('C:\\Users\\schmidttl\\Documents\\TestFolder')
 	dst= 'C:\\Users\\schmidttl\\Documents\\DestinationFolder'
-	logname='C:\\Users\\schmidttl\\Documents\\Copier_Log'
+	logname='C:\\Users\\schmidttl\\Documents\\Copier_Log\\VideoLog.txt'
 	date = datetime.date(2019, 7, 22)
 	if(len(os.listdir(directory))==0):
 		with open(logname, 'a') as log:
@@ -20,18 +21,20 @@ def main():
 			inpath= os.fsdecode(directory)
 			src = inpath + "\\" + filename
 			if(filename.endswith('.mp4')):
-				shutil.copy2(src, dst)
+				#With robocopy, found that src and dest must be hard coded. Will look further into this later.
+				copycommand = subprocess.Popen(["robocopy", 'C:\\Users\\schmidttl\\Documents\\TestFolder', 'C:\\Users\\schmidttl\\Documents\\DestinationFolder'], stdout=subprocess.PIPE)
+				copycommand.communicate()
 				with open(logname, 'a') as log:
 					log.write('\n')
 					log.write(str(date))
 					log.write(' ' + filename + ': Video copied successfully. Moving old item to trash.')
-				send2trash(src)
+				#send2trash(src)
 			else:
 				with open(logname, 'a') as log:
 					log.write('\n')
 					log.write(str(date))
 					log.write(' ' + filename + ': Non video file moved to trash.')
-				send2trash(src)
+				#send2trash(src)
 		with open(logname, 'a') as log:
 			log.write('\n')
 			log.write('Video Directory is fully copied to Transcoder and newly empty.')

@@ -7,7 +7,7 @@ from send2trash import send2trash
 def main():
 	directory= os.fsencode('C:\\Users\\schmidttl\\Documents\\TestFolder')
 	dst= 'C:\\Users\\schmidttl\\Documents\\DestinationFolder'
-	logname='C:\\Users\\schmidttl\\Documents\\Copier_Log'
+	logname='C:\\Users\\schmidttl\\Documents\\Copier_Log\\VideoCopy_Log.txt'
 	date = datetime.date(2019, 7, 22)
 	if(len(os.listdir(directory))==0):
 		with open(logname, 'a') as log:
